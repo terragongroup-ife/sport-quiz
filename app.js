@@ -1,14 +1,13 @@
-const rp = require ('request-promise');
-const $ = require ('cheerio');
-const url = 'https://www.goal.com/en-gb/live-scores';
+const cheerio = require('cheerio');
+const request = require('request-promise');
 
-rp(url)
-.then (function(html){
-    const match = $('.match-data', html).text();
-    const goals = $('.goals', html).text();
-    console.log(match, goals);
-           
-})
-.catch(function(){
-//handle error
-})
+request({
+        method: 'GET',
+        url: 'https://www.goal.com/en-gb/live-scores'
+},(err, body) =>{
+    if (err) return console.error(err);
+    let $ = cheerio.load(body);
+    const match = $('.match-data', html);
+    const goals = $('.goals', html);
+    console.log(match.text(), goals.text());  
+    });
