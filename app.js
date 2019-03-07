@@ -1,13 +1,15 @@
-const cheerio = require('cheerio');
-const request = require('request-promise');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const router = require('./router/router');
 
-request({
-        method: 'GET',
-        url: 'https://www.goal.com/en-gb/live-scores'
-},(err, body) =>{
-    if (err) return console.error(err);
-    let $ = cheerio.load(body);
-    const match = $('.match-data', html);
-    const goals = $('.goals', html);
-    console.log(match.text(), goals.text());  
-    });
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false}));
+
+app.use(router);
+
+const PORT = 5000;
+app.listen(PORT, () =>{
+    console.log('listening on port 5000');
+})
+
